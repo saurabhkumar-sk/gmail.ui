@@ -29,16 +29,31 @@ class SettingScreen extends StatelessWidget {
             ),
             Tab(
               text: 'Forwarding and POP/IMAP',
-            )
+            ),
+            Tab(
+              text: 'add-ons',
+            ),
+            Tab(
+              text: 'Chat and Meet',
+            ),
+            Tab(
+              text: 'Advanced',
+            ),
+            Tab(
+              text: 'Offline',
+            ),
+            Tab(
+              text: 'Themes',
+            ),
           ]),
         ),
         body: const TabBarView(children: [
           GeneralSettings(),
-          Text('data'),
-          Text('data'),
-          Text('data'),
-          Text('data'),
-          Text('data'),
+          // Text('Labels'),
+          // Text('Inbox'),
+          // Text('data'),
+          // Text('data'),
+          // Text('data'),
         ]),
       ),
     );
