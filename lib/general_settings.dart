@@ -1,9 +1,12 @@
+import 'dart:io';
+
 import 'package:email_ui/components/stars.dart';
 import 'package:email_ui/utils/color.dart';
 import 'package:email_ui/utils/countru.dart';
 import 'package:email_ui/utils/testStyle.dart';
 import 'package:email_ui/utils/testsize.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:language_picker/language_picker_dropdown.dart';
 import 'package:language_picker/languages.dart';
@@ -24,6 +27,12 @@ class _GeneralSettingsState extends State<GeneralSettings> {
   String? _text;
   Color _selectedColor = Colors.red;
   bool isSelected = false;
+  bool isItalic = false;
+
+  bool isBold = false;
+
+  bool isUnderline = false;
+  File? _imageFile;
 
   final List<String> _country = Country.country;
   final List<String> _textstyles = TextStyles.textstyles;
@@ -32,6 +41,15 @@ class _GeneralSettingsState extends State<GeneralSettings> {
 
   TextEditingController textEditingController = TextEditingController();
   TextEditingController textEditingController2 = TextEditingController();
+
+  Future<void> _pickImage(ImageSource source) async {
+    final pickedFile = await ImagePicker().pickImage(source: source);
+    if (pickedFile != null) {
+      setState(() {
+        _imageFile = File(pickedFile.path);
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -219,8 +237,18 @@ class _GeneralSettingsState extends State<GeneralSettings> {
                               }).toList(),
                             ),
                             const SizedBox(width: 10),
+                            // if (_imageFile != null)
+                            //   Image.file(
+                            //     _imageFile!,
+                            //     height: 200,
+                            //   ),
                             IconButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                // _pickImage(ImageSource.camera);
+                                setState(() {
+                                  _pickImage(ImageSource.gallery);
+                                });
+                              },
                               icon: const Icon(
                                 Icons.format_clear,
                               ),
@@ -298,7 +326,18 @@ class _GeneralSettingsState extends State<GeneralSettings> {
                               child: TextField(
                                 controller: textEditingController,
                                 maxLines: 100,
-                                style: const TextStyle(color: Colors.black),
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontWeight: isBold
+                                      ? FontWeight.bold
+                                      : FontWeight.normal,
+                                  fontStyle: isItalic
+                                      ? FontStyle.italic
+                                      : FontStyle.normal,
+                                  decoration: isUnderline
+                                      ? TextDecoration.underline
+                                      : TextDecoration.none,
+                                ),
                                 decoration: const InputDecoration(
                                   border: OutlineInputBorder(
                                       borderRadius: BorderRadius.zero),
@@ -338,7 +377,18 @@ class _GeneralSettingsState extends State<GeneralSettings> {
                                 child: TextField(
                                   controller: textEditingController2,
                                   maxLines: 200,
-                                  style: const TextStyle(color: Colors.black),
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                    fontWeight: isBold
+                                        ? FontWeight.bold
+                                        : FontWeight.normal,
+                                    fontStyle: isItalic
+                                        ? FontStyle.italic
+                                        : FontStyle.normal,
+                                    decoration: isUnderline
+                                        ? TextDecoration.underline
+                                        : TextDecoration.none,
+                                  ),
                                   decoration: const InputDecoration(
                                     border: OutlineInputBorder(
                                         borderRadius: BorderRadius.zero),
@@ -416,19 +466,31 @@ class _GeneralSettingsState extends State<GeneralSettings> {
                                     }).toList(),
                                   ),
                                   IconButton(
-                                    onPressed: () {},
+                                    onPressed: () {
+                                      setState(() {
+                                        isBold = !isBold;
+                                      });
+                                    },
                                     icon: const Icon(
                                       Icons.format_bold,
                                     ),
                                   ),
                                   IconButton(
-                                    onPressed: () {},
+                                    onPressed: () {
+                                      setState(() {
+                                        isItalic = !isItalic;
+                                      });
+                                    },
                                     icon: const Icon(
                                       Icons.format_italic,
                                     ),
                                   ),
                                   IconButton(
-                                    onPressed: () {},
+                                    onPressed: () {
+                                      setState(() {
+                                        isUnderline = !isUnderline;
+                                      });
+                                    },
                                     icon: const Icon(
                                       Icons.format_underline,
                                     ),
